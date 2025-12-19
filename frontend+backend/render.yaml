@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: mobapp-backend
+    env: node
+    buildCommand: npm install --prefix backend
+    startCommand: npm start --prefix backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        fromDatabase:
+          name: mobapp
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: CORS_ORIGIN
+        value: "*"
+
+  - type: web
+    name: mobapp-frontend
+    env: static
+    buildCommand: npm install --prefix frontend && npm run build --prefix frontend
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: mobapp-backend
+          property: host
