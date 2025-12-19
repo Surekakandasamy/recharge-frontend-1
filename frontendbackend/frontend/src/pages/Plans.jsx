@@ -59,13 +59,13 @@ export default function Plans() {
       // Get or create user in backend
       let userId = null;
       try {
-        const userResponse = await fetch(`http://localhost:5001/api/users?email=${currentUser?.email}`);
+        const userResponse = await fetch(`https://recharge-backend-2daw.onrender.com/api/users?email=${currentUser?.email}`);
         const userData = await userResponse.json();
         userId = userData.data?.[0]?._id;
         
         if (!userId) {
           // Create user if not exists
-          const createResponse = await fetch('http://localhost:5001/api/users', {
+          const createResponse = await fetch('https://recharge-backend-2daw.onrender.com/api/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -131,7 +131,7 @@ export default function Plans() {
       };
       
       console.log('Creating transaction:', transactionData);
-      const transactionResponse = await fetch('http://localhost:5001/api/transactions', {
+      const transactionResponse = await fetch('https://recharge-backend-2daw.onrender.com/api/transactions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(transactionData)
